@@ -18,7 +18,7 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\Player;
 
-use TheDropper\teleportBack;
+use TheDropper\TeleportBack;
 
 class Main extends PluginBase implements Listener {
 
