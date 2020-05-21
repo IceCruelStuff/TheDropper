@@ -2,9 +2,9 @@
 
 namespace TheDropper;
 
+use pocketmine\level\Position;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\Player;
-use pocketmine\level\Position;
 
 class TeleportBack extends PluginTask {
 
