@@ -65,7 +65,7 @@ class Main extends PluginBase implements Listener {
                             $this->getConfig()->setNested($player->getLevel()->getFolderName() . ".players", $players);
                             $this->getConfig()->save();
                             $this->getServer()->getScheduler()->scheduleDelayedTask(
-                                new teleportBack(
+                                new TeleportBack(
                                     $this, $player, $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX(),
                                     $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY(),
                                     $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ(),
@@ -189,7 +189,7 @@ class Main extends PluginBase implements Listener {
         $x = $spawns[0];
         $y = $spawns[1];
         $z = $spawns[2];
-        $this->getServer()->getScheduler()->scheduleDelayedTask(new teleportBack($this, $player, $x, $y, $z, $level), 5);
+        $this->getServer()->getScheduler()->scheduleDelayedTask(new TeleportBack($this, $player, $x, $y, $z, $level), 5);
     }
 
 }
