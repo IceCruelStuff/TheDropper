@@ -47,7 +47,10 @@ class Main extends PluginBase implements Listener {
                     $event->setCancelled(true);
                     $block = $player->getLevel()->getBlock(new Vector3($player->x, $player->y, $player->z));
                     if ($block->getId() === Block::WATER) {
-                        $current = (int) $this->getConfig()->getNested($player->getLevel()->getFolderName() . ".players." . strtolower($player->getName()));
+                        $current = (int) $this->getConfig()->getNested(
+                            $player->getLevel()->getFolderName() .
+                            ".players." . strtolower($player->getName())
+                        );
                         $all = count($this->getConfig()->getNested($player->getLevel()->getFolderName())) - 1;
                         $next = $current + 1;
                         if ($next <= $all) {
@@ -61,10 +64,21 @@ class Main extends PluginBase implements Listener {
                             unset($players[strtolower($player->getName())]);
                             $this->getConfig()->setNested($player->getLevel()->getFolderName() . ".players", $players);
                             $this->getConfig()->save();
-                            $this->getServer()->getScheduler()->scheduleDelayedTask(new teleportBack($this, $player, $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX(), $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY(), $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ(), $this->getServer()->getDefaultLevel()), 20);
+                            $this->getServer()->getScheduler()->scheduleDelayedTask(
+                                new teleportBack(
+                                    $this, $player, $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX(),
+                                    $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY(),
+                                    $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ(),
+                                    $this->getServer()->getDefaultLevel(),
+                                ),
+                                20,
+                            );
                         }
                     } else {
-                        $current = (int) $this->getConfig()->getNested($player->getLevel()->getFolderName() . ".players." . strtolower($player->getName()));
+                        $current = (int) $this->getConfig()->getNested(
+                            $player->getLevel()->getFolderName() .
+                            ".players." . strtolower($player->getName())
+                        );
                         $this->tpTo($player, $current, $player->getLevel());
                     }
                 }
@@ -89,7 +103,10 @@ class Main extends PluginBase implements Listener {
             } else {
                 $sign->setText($this->prefix, $this->levelname, $this->line3, $this->line4);
                 $this->signregister = false;
-                $player->sendMessage(TextFormat::GRAY . "Successfully set a sign for " . TextFormat::AQUA . $this->levelname . TextFormat::GRAY . ".");
+                $player->sendMessage(
+                    TextFormat::GRAY . "Successfully set a sign for " .
+                    TextFormat::AQUA . $this->levelname . TextFormat::GRAY . "."
+                );
                 $this->levelname = "";
                 $this->line3 = "";
                 $this->line4 = "";
@@ -97,12 +114,18 @@ class Main extends PluginBase implements Listener {
         } else {
             if ($this->mode != 0) {
                 $left = $this->spawnCount - $this->mode;
-                $this->getConfig()->setNested($player->getLevel()->getFolderName() . "." . $this->mode, array($block->getX(), $block->getY() + 2, $block->getZ()));
+                $this->getConfig()->setNested(
+                    $player->getLevel()->getFolderName() . "." . $this->mode,
+                    array($block->getX(), $block->getY() + 2, $block->getZ()),
+                );
                 $this->getConfig()->save();
                 if ($left <= 0) {
                     $this->mode = 0;
                     $this->spawncount = 0;
-                    $player->sendMessage(TextFormat::GRAY . "The last Spawn has been set. Set the sign using " . TextFormat::AQUA . "/td regsign <worldname>" . TextFormat::GRAY . ".");
+                    $player->sendMessage(
+                        TextFormat::GRAY . "The last Spawn has been set. Set the sign using " .
+                        TextFormat::AQUA . "/td regsign <worldname>" . TextFormat::GRAY . "."
+                    );
                     $player->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
                 } else {
                     $player->sendMessage(TextFormat::GRAY . "Spawn $this->mode" . " has been set. $left Spawns left.");
@@ -120,17 +143,20 @@ class Main extends PluginBase implements Listener {
                     return true;
                 }
                 if (!(isset($args[0]))) {
-                    $sender->sendMessage(TextFormat::GRAY . "Usage: " . $cmd->getUsage());
+                    $sender->sendMessage(TextFormat::GRAY . "Usage: " . $command->getUsage());
                     return true;
                 }
                 if (strtolower($args[0]) === "addarena") {
-                    if (!(isset($args[1])) or ! (isset($args[2]))) {
+                    if (!(isset($args[1])) || ! (isset($args[2]))) {
                         $sender->sendMessage(TextFormat::GRAY . "Usage: /td addarena <worldname> <anzahl>");
                         return true;
                     }
                     if (file_exists($this->getServer()->getDataPath() . "/worlds/" . $args[1])) {
                         $this->getServer()->loadLevel($args[1]);
-                        $this->getServer()->getLevelByName($args[1])->loadChunk($this->getServer()->getLevelByName($args[1])->getSafeSpawn()->getX(), $this->getServer()->getLevelByName($args[1])->getSafeSpawn()->getZ());
+                        $this->getServer()->getLevelByName($args[1])->loadChunk(
+                            $this->getServer()->getLevelByName($args[1])->getSafeSpawn()->getX(),
+                            $this->getServer()->getLevelByName($args[1])->getSafeSpawn()->getZ(),
+                        );
                         $this->spawnCount = $args[2];
                         $this->mode = 1;
                         $sender->sendMessage(TextFormat::GRAY . "Tap the spawns now! $this->spawnCount left.");
